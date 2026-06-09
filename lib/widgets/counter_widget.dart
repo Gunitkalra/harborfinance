@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import '../constants/colors.dart';
 
 class CounterWidget extends StatefulWidget {
@@ -40,11 +41,24 @@ class _CounterWidgetState extends State<CounterWidget>
       parent: _controller,
       curve: Curves.easeOutCubic,
     ));
+  }
 
-    // Automatically start the animation
-    // Ideally this triggers when visible on screen. We can trigger it on build
-    // or when the widget is scrolled into view.
-    _controller.forward();
+  @override
+  void didUpdateWidget(covariant CounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.targetValue != widget.targetValue) {
+      _animation = Tween<double>(
+        begin: 0,
+        end: widget.targetValue.toDouble(),
+      ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutCubic,
+      ));
+      if (_controller.value > 0) {
+        _controller.reset();
+        _controller.forward();
+      }
+    }
   }
 
   @override
@@ -55,29 +69,47 @@ class _CounterWidgetState extends State<CounterWidget>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        // Format value: if it has a comma or plus, format nicely.
-        final int value = _animation.value.toInt();
-        final String formattedValue = _formatNumber(value);
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "${widget.prefix}$formattedValue${widget.suffix}",
-              style: AppTextStyles.display(40, color: AppColors.secondary, weight: FontWeight.w800),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              widget.label,
-              style: AppTextStyles.body(14, color: AppColors.textLight, weight: FontWeight.w500),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        );
+    return VisibilityDetector(
+      key: Key('counter_${widget.label}_${widget.targetValue}'),
+      onVisibilityChanged: (visibilityInfo) {
+        if (!mounted) return;
+        final double visiblePercentage = visibilityInfo.visibleFraction * 100;
+        
+        if (visiblePercentage > 15) {
+          // Trigger animation when the widget enters view
+          if (!_controller.isAnimating && _controller.value == 0) {
+            _controller.forward();
+          }
+        } else if (visiblePercentage == 0) {
+          // Reset when scrolled completely off-screen, so it runs again when scrolled back into view
+          if (_controller.value > 0) {
+            _controller.reset();
+          }
+        }
       },
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          final int value = _animation.value.toInt();
+          final String formattedValue = _formatNumber(value);
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "${widget.prefix}$formattedValue${widget.suffix}",
+                style: AppTextStyles.display(40, color: AppColors.secondary, weight: FontWeight.w800),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                widget.label,
+                style: AppTextStyles.body(14, color: AppColors.textLight, weight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

@@ -215,20 +215,26 @@ class _LandingPageState extends State<LandingPage> {
                 cursor: SystemMouseCursors.click,
                 child: Row(
                   children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: const BoxDecoration(
-                        gradient: AppColors.primaryGradient,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.anchor, color: Colors.white, size: 22),
+                    Image.asset(
+                      'assets/logoooo.png',
+                      height: 100,
+                      width: 250,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(width: 12),
-                    Text(
-                      "Harbor Finance",
-                      style: AppTextStyles.heading(20, color: AppColors.textDark, weight: FontWeight.bold),
-                    ),
+                    // Container(
+                    //   width: 42,
+                    //   height: 42,
+                    //   decoration: const BoxDecoration(
+                    //     gradient: AppColors.primaryGradient,
+                    //     shape: BoxShape.circle,
+                    //   ),
+                    //   child: const Icon(Icons.anchor, color: Colors.white, size: 22),
+                    // ),
+                    // const SizedBox(width: 12),
+                    // Text(
+                    //   "Harbor Finance",
+                    //   style: AppTextStyles.heading(20, color: AppColors.textDark, weight: FontWeight.bold),
+                    // ),
                   ],
                 ),
               ),
@@ -1126,9 +1132,9 @@ class _LandingPageState extends State<LandingPage> {
                           style: AppTextStyles.heading(22),
                         ),
                         const SizedBox(height: 16),
-                        _buildContactDetailItem(Icons.email_outlined, "Email Support", "loans@harborfinance.com"),
-                        _buildContactDetailItem(Icons.phone_outlined, "Helpline Phone", "+1-800-427-267"),
-                        _buildContactDetailItem(Icons.location_on_outlined, "Address Headquarters", "Level 6, Tech Park Towers, Indiranagar, Bangalore, India"),
+                        _buildContactDetailItem(Icons.email_outlined, "Email Support", "info@harborfintech.com"),
+                        _buildContactDetailItem(Icons.phone_outlined, "Helpline Phone", "+91-9258756581"),
+                        _buildContactDetailItem(Icons.location_on_outlined, "Address Headquarters", " ground floor,Tower 8,Candor TechSpace Sec-135 , Noida, India"),
                         const SizedBox(height: 32),
                         
                         // Mock Google Map component
@@ -1441,19 +1447,12 @@ class _LandingPageState extends State<LandingPage> {
                         Row(
                           mainAxisAlignment: isMobile ? MainAxisAlignment.center : MainAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              decoration: const BoxDecoration(
-                                gradient: AppColors.primaryGradient,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(Icons.anchor, color: Colors.white, size: 18),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "Harbor Finance",
-                              style: AppTextStyles.heading(18, color: Colors.white, weight: FontWeight.bold),
+                            Image.asset(
+                              'assets/logoooo.png',
+                              height: 50,
+                              fit: BoxFit.contain,
+                              color: Colors.white,
+                              colorBlendMode: BlendMode.srcIn,
                             ),
                           ],
                         ),
@@ -1532,11 +1531,11 @@ class _LandingPageState extends State<LandingPage> {
                           style: AppTextStyles.heading(14, color: Colors.white),
                         ),
                         const SizedBox(height: 16),
-                        Text("loans@harborfinance.com", style: AppTextStyles.body(13, color: Colors.white70)),
+                        Text("info@harborfintech.com", style: AppTextStyles.body(13, color: Colors.white70)),
                         const SizedBox(height: 8),
-                        Text("+1-800-427-267", style: AppTextStyles.body(13, color: Colors.white70)),
+                        Text("+91-9258756581", style: AppTextStyles.body(13, color: Colors.white70)),
                         const SizedBox(height: 8),
-                        Text("Indiranagar, Bangalore, India", style: AppTextStyles.body(13, color: Colors.white60)),
+                        Text("ground floor,Tower 8,Candor TechSpace Sec-135 , Noida, India", style: AppTextStyles.body(13, color: Colors.white60)),
                       ],
                     ),
                   ),
