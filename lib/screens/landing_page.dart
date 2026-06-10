@@ -215,11 +215,26 @@ class _LandingPageState extends State<LandingPage> {
                 cursor: SystemMouseCursors.click,
                 child: Row(
                   children: [
-                    Image.asset(
-                      'assets/logoooo.png',
-                      height: 100,
-                      width: 250,
-                      fit: BoxFit.cover,
+                    AnimatedCrossFade(
+                      duration: const Duration(milliseconds: 200),
+                      alignment: Alignment.center,
+                      crossFadeState: _isScrolled
+                          ? CrossFadeState.showSecond
+                          : CrossFadeState.showFirst,
+                      firstChild: Image.asset(
+                        'assets/logoooo.png',
+                        height: 100,
+                        width: 250,
+                        fit: BoxFit.cover,
+                        color: Colors.white,
+                        colorBlendMode: BlendMode.srcIn,
+                      ),
+                      secondChild: Image.asset(
+                        'assets/logoooo.png',
+                        height: 100,
+                        width: 250,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     // Container(
                     //   width: 42,
@@ -275,9 +290,14 @@ class _LandingPageState extends State<LandingPage> {
         hoverColor: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
-            title,
-            style: AppTextStyles.body(14, color: AppColors.textDark, weight: FontWeight.w600),
+          child: AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 200),
+            style: AppTextStyles.body(
+              14,
+              color: _isScrolled ? AppColors.textDark : Colors.white.withAlpha(220),
+              weight: FontWeight.w600,
+            ),
+            child: Text(title),
           ),
         ),
       ),
